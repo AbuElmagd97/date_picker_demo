@@ -36,6 +36,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   date_picker_timeline: ^1.2.3
 
+
+#  calendar_strip:
+#    git:
+#      url: https://github.com/eripe970/flutter_calendar_strip.git
+#      ref: null-safe-migration
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -14,6 +14,7 @@ class CustomDateWidget extends StatelessWidget {
   final DateTime date;
   final TextStyle? monthTextStyle, dayTextStyle, dateTextStyle;
   final Color selectionColor;
+  final Gradient? gradient;
   final DateSelectionCallback? onDateSelected;
   final String? locale;
 
@@ -26,6 +27,7 @@ class CustomDateWidget extends StatelessWidget {
     this.width,
     this.onDateSelected,
     this.locale,
+    this.gradient,
   });
 
   @override
@@ -33,10 +35,11 @@ class CustomDateWidget extends StatelessWidget {
     return InkWell(
       child: Container(
         width: MediaQuery.of(context).size.width * 0.13,
-        margin: EdgeInsets.all(3.0),
+        margin: const EdgeInsets.all(3.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(22.0)),
-          color: selectionColor,
+          // color: selectionColor,
+          gradient: gradient,
         ),
         child: Padding(
           padding: EdgeInsets.all(8),
@@ -47,15 +50,16 @@ class CustomDateWidget extends StatelessWidget {
               // Text(new DateFormat("MMM", locale).format(date).toUpperCase(), // Month
               //     style: monthTextStyle),
 
-              Text(new DateFormat("E", locale).format(date).toUpperCase(), // WeekDay
+              Text(DateFormat("E", locale).format(date), // WeekDay
                   style: dayTextStyle),
               Text(date.day.toString(), // Date
-                  style: dateTextStyle),
+                  style:  dayTextStyle),
             ],
           ),
         ),
       ),
       onTap: () {
+        debugPrint(date.toString());
         // Check if onDateSelected is not null
         if (onDateSelected != null) {
           // Call the onDateSelected Function

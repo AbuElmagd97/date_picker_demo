@@ -7,6 +7,7 @@ import 'package:date_picker_timeline/gestures/tap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar/custom_date_widget.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 class CustomDatePicker extends StatefulWidget {
   /// Start Date in case user wants to show past dates
@@ -27,6 +28,7 @@ class CustomDatePicker extends StatefulWidget {
 
   /// Background color for the selector
   final Color selectionColor;
+
 
   /// Text Color for the deactivated dates
   final Color deactivatedColor;
@@ -62,6 +64,7 @@ class CustomDatePicker extends StatefulWidget {
   final String locale;
 
   CustomDatePicker(
+
       this.startDate, {
         Key? key,
         this.width = 60,
@@ -76,7 +79,7 @@ class CustomDatePicker extends StatefulWidget {
         this.initialSelectedDate,
         this.activeDates,
         this.inactiveDates,
-        this.daysCount = 500,
+        required this.daysCount,
         this.onDateChange,
         this.locale = "en_US",
       }) : assert(
@@ -84,14 +87,17 @@ class CustomDatePicker extends StatefulWidget {
   "Can't "
       "provide both activated and deactivated dates List at the same time.");
 
+
   @override
-  State<StatefulWidget> createState() => new _DatePickerState();
+  State<StatefulWidget> createState() => _DatePickerState();
 }
 
 class _DatePickerState extends State<CustomDatePicker> {
   DateTime? _currentDate;
 
-  ScrollController _controller = ScrollController();
+
+
+  final ScrollController _controller = ScrollController();
 
   late final TextStyle selectedDateStyle;
   late final TextStyle selectedMonthStyle;
@@ -112,22 +118,24 @@ class _DatePickerState extends State<CustomDatePicker> {
       widget.controller!.setDatePickerState(this);
     }
 
-    this.selectedDateStyle =
+    selectedDateStyle =
         widget.dateTextStyle.copyWith(color: widget.selectedTextColor);
-    this.selectedMonthStyle =
+    selectedMonthStyle =
         widget.monthTextStyle.copyWith(color: widget.selectedTextColor);
-    this.selectedDayStyle =
+    selectedDayStyle =
         widget.dayTextStyle.copyWith(color: widget.selectedTextColor);
 
-    this.deactivatedDateStyle =
+    deactivatedDateStyle =
         widget.dateTextStyle.copyWith(color: widget.deactivatedColor);
-    this.deactivatedMonthStyle =
+    deactivatedMonthStyle =
         widget.monthTextStyle.copyWith(color: widget.deactivatedColor);
-    this.deactivatedDayStyle =
+    deactivatedDayStyle =
         widget.dayTextStyle.copyWith(color: widget.deactivatedColor);
 
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +151,7 @@ class _DatePickerState extends State<CustomDatePicker> {
           // if widget.startDate is null then use the initialDateValue
           DateTime date;
           DateTime _date = widget.startDate.add(Duration(days: index));
-          date = new DateTime(_date.year, _date.month, _date.day);
+          date = DateTime(_date.year, _date.month, _date.day);
 
           bool isDeactivated = false;
 
@@ -194,6 +202,17 @@ class _DatePickerState extends State<CustomDatePicker> {
                 : widget.dayTextStyle,
             width: widget.width,
             locale: widget.locale,
+            gradient: isSelected ? LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment
+                  .bottomRight, // 10% of the width, so there are ten blinds.
+              colors: <Color>[
+                Color(0xffBF87A0),
+                Color(0xffD5B5A6)
+              ], // red to yellow
+              tileMode:
+              TileMode.mirror, // repeats the gradient over the canvas
+            ) : null,
             selectionColor:
             isSelected ? widget.selectionColor : Colors.transparent,
             onDateSelected: (selectedDate) {
